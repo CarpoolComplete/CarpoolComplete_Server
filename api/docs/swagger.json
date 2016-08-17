@@ -1,0 +1,1450 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Carpool",
+        "description": "Carpool API Explorer"
+    },
+    "host": "52.37.247.230",
+    "basePath": "/api/v1",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json",
+        "text/html",
+        "image/jpeg"
+    ],
+    "produces": [
+        "application/json",
+        "text/html",
+        "image/jpeg"
+    ],
+    "paths": {
+        "/admins": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create admin",
+                "parameters": [
+                    {
+                        "name": "admin_name",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "admin_pass",
+                        "in": "query",
+                        "type": "string",
+                        "format": "password",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Create admin",
+                        "schema": {
+                            "$ref": "#/definitions/Admin"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/{id}/update/password": {
+            "patch": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update admin password",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the admin",
+                        "required": true
+                    },
+                    {
+                        "name": "admin_current_pass",
+                        "in": "query",
+                        "type": "string",
+                        "description": "admin current password",
+                        "required": true
+                    },
+                    {
+                        "name": "admin_new_pass",
+                        "in": "query",
+                        "type": "string",
+                        "description": "admin new password",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update admin password",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Signup new user",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_first_name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "user_last_name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "user_email",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "user_phone",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "user_pass",
+                        "in": "formData",
+                        "type": "string",
+                        "format": "password",
+                        "required": true
+                    },
+                    {
+                        "name": "user_device_token",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "user_device_type",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "user_time_zone",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "avatar",
+                        "in": "formData",
+                        "description": "user avatar image",
+                        "type": "file",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Create a new user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login user",
+                "parameters": [
+                    {
+                        "name": "user_email",
+                        "in": "query",
+                        "type": "string",
+                        "description": "user email",
+                        "required": true
+                    },
+                    {
+                        "name": "user_pass",
+                        "in": "query",
+                        "description": "user password",
+                        "type": "string",
+                        "format": "password",
+                        "required": true
+                    },
+                    {
+                        "name": "user_device_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "user device type",
+                        "required": true
+                    },
+                    {
+                        "name": "user_device_token",
+                        "in": "query",
+                        "type": "string",
+                        "description": "user device token",
+                        "required": false
+                    },
+                    {
+                        "name": "user_time_zone",
+                        "in": "query",
+                        "type": "string",
+                        "description": "user time zone=> +8:00",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get authorized user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/forgot/password": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Send forgot password to user email",
+                "parameters": [
+                    {
+                        "name": "user_email",
+                        "in": "query",
+                        "description": "user email address",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Send forgot password to user email",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                  "User"
+                ],
+                "summary": "Get user by id",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get user by id",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "user_first_name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "user_last_name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "user_email",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "user_phone",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "avatar",
+                        "in": "formData",
+                        "description": "user avatar image",
+                        "type": "file",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/update/password": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user password",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "user_current_pass",
+                        "in": "query",
+                        "type": "string",
+                        "format": "password",
+                        "description": "user current password",
+                        "required": true
+                    },
+                    {
+                        "name": "user_new_pass",
+                        "in": "query",
+                        "type": "string",
+                        "format": "password",
+                        "description": "user new password",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update user password",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/logout": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Logout user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logout user",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/events": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get family events by user id",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get family events by user id",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/invitations": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user invitations by user id",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get user invitations by user id",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/passenger": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get family passengers by family id",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the user family",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get family passengers by family id",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/adult": {
+            "post": {
+                "tags": [
+                    "Adult"
+                ],
+                "summary": "Create new Adult",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "adult",
+                        "in": "body",
+                        "description": "The adult JSON you want to post",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Create a new adult",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/adult/{id}": {
+            "delete": {
+                "tags": [
+                    "Adult"
+                ],
+                "summary": "Delete adult",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the adult",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete adult",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/passengers": {
+            "post": {
+                "tags": [
+                    "Passenger"
+                ],
+                "summary": "Create new passenger",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "passenger",
+                        "in": "body",
+                        "description": "The passenger JSON you want to post",
+                        "schema": {
+                            "$ref": "#/definitions/Passenger"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Create a new passenger",
+                        "schema": {
+                            "$ref": "#/definitions/Passenger"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/passengers/{id}": {
+            "put": {
+                "tags": [
+                    "Passenger"
+                ],
+                "summary": "Update passenger",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the passenger",
+                        "required": true
+                    },
+                    {
+                        "name": "passenger_user_id",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "ID of the passenger user",
+                        "required": true
+                    },
+                    {
+                        "name": "passenger_first_name",
+                        "in": "query",
+                        "description": "The passenger first name",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "passenger_last_name",
+                        "in": "query",
+                        "description": "The passenger last name",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update passenger",
+                        "schema": {
+                            "$ref": "#/definitions/Passenger"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Passenger"
+                ],
+                "summary": "Delete passenger",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the passenger",
+                        "required": true
+                    },
+                    {
+                        "name": "passenger_user_id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the passenger user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete passenger",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/events": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Create new event",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "event",
+                        "in": "body",
+                        "description": "The event JSON you want to post",
+                        "schema": {
+                            "$ref": "#/definitions/Event"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Create a new event",
+                        "schema": {
+                            "$ref": "#/definitions/Event"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{id}": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get a Event",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the event",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update event",
+                        "schema": {
+                            "$ref": "#/definitions/Event"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Update event",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the event",
+                        "required": true
+                    },
+                    {
+                        "name": "event",
+                        "in": "body",
+                        "description": "The event JSON you want to post",
+                        "schema": {
+                            "$ref": "#/definitions/Event"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update event",
+                        "schema": {
+                            "$ref": "#/definitions/Event"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Delete event",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the event",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete event",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{id}/driver": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Add driver to event",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the event",
+                        "required": true
+                    },
+                    {
+                        "name": "event_driver",
+                        "in": "body",
+                        "description": "The EventDriver JSON you want to post",
+                        "schema": {
+                            "$ref": "#/definitions/EventDriver"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Add driver to event",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{id}/passengers": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Add details to event",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the event",
+                        "required": true
+                    },
+                    {
+                        "name": "event_details",
+                        "in": "body",
+                        "description": "The EventDetails JSON you want to post",
+                        "schema": {
+                            "$ref": "#/definitions/EventDetail"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Add details to event",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/invitations": {
+            "post": {
+                "tags": [
+                    "Invitation"
+                ],
+                "summary": "Create new driver invitation",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "invitation",
+                        "in": "body",
+                        "description": "The invitation JSON you want to post",
+                        "schema": {
+                            "$ref": "#/definitions/Invitation"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Create a new driver invitation",
+                        "schema": {
+                            "$ref": "#/definitions/Invitation"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/invitations/{id}": {
+            "patch": {
+                "tags": [
+                    "Invitation"
+                ],
+                "summary": "Update invitation status",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the invitation",
+                        "required": true
+                    },
+                    {
+                        "name": "invitation_status",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "invitation status: 1 => accepted, -1 => rejected",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted invitation",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Invitation"
+                ],
+                "summary": "Delete invitation",
+                "parameters": [
+                    {
+                        "name": "AccessToken",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Access Token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "ID of the invitation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted invitation",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/send/code": {
+            "post": {
+                "tags": [
+                    "SMS"
+                ],
+                "summary": "Send verification code to phone number",
+                "parameters": [
+                    {
+                        "name": "phone_number",
+                        "in": "query",
+                        "type": "string",
+                        "description": "user phone number",
+                        "required": true
+                    },
+                    {
+                        "name": "verification_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "verification code",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sent verification code",
+                        "schema": {
+                            "$ref": "#/definitions/Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Admin": {
+            "type": "object",
+            "properties": {
+                "admin_id": {
+                    "type": "integer"
+                },
+                "admin_name": {
+                    "type": "string"
+                },
+                "admin_pass": {
+                    "type": "string",
+                    "format": "password"
+                },
+                "admin_created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                },
+                "user_family_id": {
+                    "type": "integer"
+                },
+                "user_first_name": {
+                    "type": "string"
+                },
+                "user_last_name": {
+                    "type": "string"
+                },
+                "user_email": {
+                    "type": "string"
+                },
+                "user_pass": {
+                    "type": "string",
+                    "format": "password"
+                },
+                "user_phone": {
+                    "type": "string"
+                },
+                "user_avatar_url": {
+                    "type": "string"
+                },
+                "user_device_token": {
+                    "type": "string"
+                },
+                "user_device_type": {
+                    "type": "string"
+                },
+                "user_time_zone": {
+                    "type": "string"
+                },
+                "user_created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Passenger": {
+            "type": "object",
+            "properties": {
+                "passenger_id": {
+                    "type": "integer"
+                },
+                "passenger_family_id": {
+                    "type": "integer"
+                },
+                "passenger_user_id": {
+                    "type": "integer"
+                },
+                "passenger_first_name": {
+                    "type": "string"
+                },
+                "passenger_last_name": {
+                    "type": "string"
+                },
+                "passenger_created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Event": {
+            "type": "object",
+            "properties": {
+                "event_id": {
+                    "type": "integer"
+                },
+                "event_user_id": {
+                    "type": "integer"
+                },
+                "event_title": {
+                    "type": "string"
+                },
+                "event_repeat_end_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "event_repeat_type": {
+                    "type": "integer",
+                    "description": "0=>No repeat, 1=>Everyday, 2=>Every Weekday, 3=>Weekly, 4=>Every Other Week, 5=>Every Month, 6=>Custom"
+                },
+                "event_custom_repeat_dates": {
+                    "type": "string"
+                },
+                "event_delete_dates": {
+                    "type": "string"
+                },
+                "event_created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "EventDriver": {
+            "type": "object",
+            "properties": {
+                "event_driver_id": {
+                    "type": "integer"
+                },
+                "event_driver_driver_id": {
+                    "type": "integer"
+                },
+                "event_driver_driver_type": {
+                    "type": "integer",
+                    "description": "0=>to, 1=>from"
+                },
+                "event_driver_type": {
+                    "type": "integer",
+                    "description": "0=>all, 1=>this only"
+                },
+                "event_driver_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "event_driver_created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "EventDetail": {
+            "type": "object",
+            "properties": {
+                "event_detail_id": {
+                    "type": "integer"
+                },
+                "event_detail_start_at": {
+                    "type": "string",
+                    "format": "time"
+                },
+                "event_detail_end_at": {
+                    "type": "string",
+                    "format": "time"
+                },
+                "event_detail_passengers": {
+                    "type": "string"
+                },
+                "event_detail_alert_time": {
+                    "type": "integer"
+                },
+                "event_detail_type": {
+                    "type": "integer",
+                    "description": "0=>all, 1=>future, 2=>this only"
+                },
+                "event_detail_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "event_detail_created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Invitation": {
+            "type": "object",
+            "properties": {
+                "invitation_id": {
+                    "type": "integer"
+                },
+                "invitation_event_id": {
+                    "type": "integer"
+                },
+                "invitation_driver_user_id": {
+                    "type": "integer"
+                },
+                "invitation_driver_first_name": {
+                    "type": "string"
+                },
+                "invitation_driver_last_name": {
+                    "type": "string"
+                },
+                "invitation_driver_email": {
+                    "type": "string"
+                },
+                "invitation_driver_phone": {
+                    "type": "string"
+                },
+                "invitation_is_read": {
+                    "type": "integer"
+                },
+                "invitation_created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Result": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
